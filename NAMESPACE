@@ -1,0 +1,29 @@
+importFrom("stats", "pnorm", "dnorm", "integrate")
+importFrom("grDevices", "grey")
+importFrom("graphics", "abline", "axis", "legend", "mtext", "segments")
+importFrom("mvtnorm", "pmvnorm")
+
+## which functions shall be accessible by the users?
+export(
+    NormalNormalPosterior,
+    basicPlot,
+    bpp,
+    post_power,
+    dUniformNormalTails,
+    pUniformNormalTails,
+    estimate_posterior_nominator,
+    estimate_posterior,
+    estimate_toIntegrate,
+    interval_posterior_nominator,
+    interval_toIntegrate,
+    bpp_1interim,
+    interval_posterior_nominator2,
+    interval_toIntegrate2,
+    bpp_2interim,
+    FlatNormalPosterior
+)
+
+
+
+
+
