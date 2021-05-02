@@ -2,10 +2,12 @@
 \alias{bpp_2interim}
 \title{Bayesian Predictive Power (BPP) for Normally Distributed Endpoint}
 \description{Compute BPP and posterior density for a Normally distributed endpoint, e.g. log(hazard ratio), assuming the trial did not stop at two blinded interim analyses.}
-\usage{bpp_2interim(prior = "normal", datasigma, finalsigma, successmean, IntEffBoundary, 
+\usage{bpp_2interim(prior = "normal", direction_lower = TRUE, datasigma, 
+                    finalsigma, successmean, IntEffBoundary, 
                     IntFutBoundary, priormean, thetas, ...)}
 \arguments{
   \item{prior}{Prior density on effect sizes. So far, this function only accomodates a Normal prior, as opposed to \code{bpp_1interim} where also the pessimistic prior introduced in Rufibach et al (2016a) can be specified.}
+  \item{direction_lower}{\code{logical}. If \code{TRUE} consider probability \eqn{P(\hat \delta_{fin} \le \delta_{suc})}, applies e.g. for hazard ratio.}  
   \item{datasigma}{(Known) standard error of estimate at interim analysis.}
   \item{finalsigma}{(Known) standard error at which the final analysis of the study under consideration takes place.}
   \item{successmean}{The mean that defines success at the final analysis. Typically chosen to be the minimal detectable difference, i.e. the critical on the scale of the effect size of interest corresponding to the significance level at the final analysis.}
@@ -66,7 +68,8 @@ futi <- log(c(1, Inf))
 # grid to compute densities on
 thetas <- seq(-0.65, 0.3, by = 0.01)
 
-bpp_2interim(prior = "normal", datasigma = datasigma, finalsigma = finalsigma, 
+bpp_2interim(prior = "normal", direction_lower = TRUE, datasigma = datasigma, 
+             finalsigma = finalsigma, 
              successmean = successmean, IntEffBoundary = effi, IntFutBoundary = futi, 
              priormean = priormean, thetas = thetas, priorsigma = priorsigma)
 }}

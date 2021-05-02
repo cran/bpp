@@ -1,4 +1,4 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 now <- as.character(as.POSIXlt(Sys.time()))
 today <- as.Date(substr(now, 1, 10))
 now <- paste(today, " at ", substr(now, 12, 19), sep = "")
@@ -6,7 +6,7 @@ now <- paste(today, " at ", substr(now, 12, 19), sep = "")
 ## set some knitr options
 knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # load the package:
 library(bpp)
 
@@ -38,7 +38,7 @@ sd2 <- 0.658
 # grid to compute densities on
 thetas <- seq(-0.65, 0.3, by = 0.01)
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # ----------------------------------
 # mean and sd of Normal prior:
 # ----------------------------------
@@ -54,7 +54,7 @@ priormean <- log(hr0)
 # parameters of pessimistic, or flat, prior:
 # ----------------------------------
 hr0flat <- 0.866
-priormean <- log(hr0flat)
+priormeanflat <- log(hr0flat)
 width1 <- 0.21
 height1 <- 2.48
 
@@ -63,46 +63,46 @@ par(las = 1, mar = c(9, 5, 2, 1), mfrow = c(1, 1))
 plot(0, 0, type = "n", xlim = c(-0.6, 0.3), ylim = c(-0.1, 5), xlab = "", ylab = "density", main = "")
 title(expression("Normal and pessimistic prior density for "*theta), line = 0.7)
 basicPlot(leg = FALSE, IntEffBoundary = NA, IntFutBoundary = NA, successmean = NA, priormean = NA)
-lines(thetas, dnorm(thetas, mean = log(hr0), sd = sd0), col = 2, lwd = 2)
-lines(thetas, dUniformNormalTails(thetas, mu = log(hr0flat), width = width1, height = height1), lwd = 2, col = 3)
+lines(thetas, dnorm(thetas, mean = priormean, sd = sd0), col = 2, lwd = 2)
+lines(thetas, dUniformNormalTails(thetas, mu = priormeanflat, width = width1, height = height1), lwd = 2, col = 3)
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # Normal prior probabilities to be below 0.7 or above 1:
 lims <- c(0.7, 1)
-pnorm1 <- plnorm(lims[1], meanlog = log(hr0), sdlog = sd0, lower.tail = TRUE, log.p = FALSE)   
-pnorm2 <- plnorm(lims[2], meanlog = log(hr0), sdlog = sd0, lower.tail = FALSE, log.p = FALSE)
+pnorm1 <- plnorm(lims[1], meanlog = priormean, sdlog = sd0, lower.tail = TRUE, log.p = FALSE)   
+pnorm2 <- plnorm(lims[2], meanlog = priormean, sdlog = sd0, lower.tail = FALSE, log.p = FALSE)
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # pessimistic prior probabilities to be below 0.7 or above 1:
-flat1 <- pUniformNormalTails(x = log(lims[1]), mu = priormean, width = width1, height = height1)
-flat2 <- 1 - pUniformNormalTails(x = log(lims[2]), mu = priormean, width = width1, 
+flat1 <- pUniformNormalTails(x = log(lims[1]), mu = priormeanflat, width = width1, height = height1)
+flat2 <- 1 - pUniformNormalTails(x = log(lims[2]), mu = priormeanflat, width = width1, 
                                  height = height1)
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # ----------------------------------
 # Normal prior:
 # ----------------------------------
 bpp0 <- bpp(prior = "normal", successmean = successmean, finalsigma = finalsigma, 
-            priormean = log(hr0), priorsigma = sd0)
+            priormean = priormean, priorsigma = sd0)
 
 # ----------------------------------
 # pessimistic prior:
 # ----------------------------------
 bpp0_1 <- bpp(prior = "flat", successmean = successmean, finalsigma = finalsigma, 
-              priormean = priormean, width = width1, height = height1)
+              priormean = priormeanflat, width = width1, height = height1)
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # ----------------------------------
 # Normal prior:
 # ----------------------------------
-up1 <- NormalNormalPosterior(datamean = log(hr1), datasigma = sd1, n = 1, nu = log(hr0), 
+up1 <- NormalNormalPosterior(datamean = log(hr1), datasigma = sd1, n = 1, nu = priormean, 
                              tau = sd0)
 bpp1 <- bpp(prior = "normal", successmean = successmean, finalsigma = finalsigma, 
             priormean = up1$postmean, priorsigma = up1$postsigma)
 
 # update prior with second external study (result derived from pooled analysis: 
 # Cox regression on patient level, stratified by study):
-up2 <- NormalNormalPosterior(datamean = log(hr2), datasigma = sd2, n = 1, nu = log(hr0), 
+up2 <- NormalNormalPosterior(datamean = log(hr2), datasigma = sd2, n = 1, nu = priormean, 
                              tau = sd0)
 bpp2 <- bpp(prior = "normal", successmean = successmean, finalsigma = finalsigma, 
             priormean = up2$postmean, priorsigma = up2$postsigma)
@@ -112,14 +112,14 @@ bpp2 <- bpp(prior = "normal", successmean = successmean, finalsigma = finalsigma
 # ----------------------------------
 bpp1_1 <- integrate(FlatNormalPosterior, lower = -Inf, upper = Inf, successmean = successmean, 
                      finalsigma = finalsigma, datamean = log(hr1), datasigma = sd1, 
-                     priormean = priormean, width = width1, height = height1)$value
+                     priormean = priormeanflat, width = width1, height = height1)$value
 
 bpp2_1 <- integrate(FlatNormalPosterior, -Inf, Inf, successmean = successmean, 
                      finalsigma = finalsigma, datamean = log(hr2), 
-                     datasigma = sd2, priormean = priormean, 
+                     datasigma = sd2, priormean = priormeanflat, 
                      width = width1, height = height1)$value
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # ----------------------------------
 # compute bpp after not stopping at interim, for Normal prior and various 
 # assumptions on the amount of information we learn at the interim
@@ -129,7 +129,7 @@ bpp2_1 <- integrate(FlatNormalPosterior, -Inf, Inf, successmean = successmean,
 bpp3.tmp <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[1]), 
                          finalsigma = finalsigma, successmean = successmean, 
                          IntEffBoundary = effi, IntFutBoundary = futi, IntFix = 1, 
-                         priormean = up2$postmean, propA = 0.5, thetas, 
+                         priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                          priorsigma = up2$postsigma)
 bpp3 <- bpp3.tmp$"BPP after not stopping at interim interval"
 post3 <- bpp3.tmp$"posterior density interval"
@@ -154,7 +154,7 @@ bpp3_futi_only <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[
 bpp4.tmp <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[1]), 
                          finalsigma = finalsigma, successmean = successmean, 
                          IntEffBoundary = effi, IntFutBoundary = Inf, IntFix = c(effi, futi), 
-                         priormean = up2$postmean, propA = 0.5, thetas, 
+                         priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                          priorsigma = up2$postsigma)
 bpp4 <- bpp4.tmp$"BPP after not stopping at interim exact"[2, 1]
 post4 <- bpp4.tmp$"posterior density exact"[, 1]
@@ -163,12 +163,12 @@ post4 <- bpp4.tmp$"posterior density exact"[, 1]
 bpp5.tmp <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[1]), 
                          finalsigma = finalsigma, successmean = successmean, 
                          IntEffBoundary = effi, IntFutBoundary = Inf, IntFix = futi, 
-                         priormean = up2$postmean, propA = 0.5, thetas, 
+                         priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                          priorsigma = up2$postsigma)
 bpp5 <- bpp5.tmp$"BPP after not stopping at interim exact"[2, 1]
 post5 <- bpp5.tmp$"posterior density exact"     # same as post4[, 2]
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # ----------------------------------
 # compute bpp after not stopping at interim, for pessimistic prior and various 
 # assumptions on the amount of information we learn at the interim
@@ -178,7 +178,7 @@ post5 <- bpp5.tmp$"posterior density exact"     # same as post4[, 2]
 bpp3.tmp_1 <- bpp_1interim(prior = "flat", datasigma = sqrt(fac / nevents[1]), 
                          finalsigma = finalsigma, successmean = successmean, 
                          IntEffBoundary = effi, IntFutBoundary = futi, IntFix = 1, 
-                         priormean = up2$postmean, propA = 0.5, thetas, 
+                         priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                          width = width1, height = height1)
 bpp3_1 <- bpp3.tmp_1$"BPP after not stopping at interim interval"
 post3_1 <- bpp3.tmp_1$"posterior density interval"
@@ -234,7 +234,7 @@ plot(0, 0, type = "n", xlim = c(-0.6, 0.3), ylim = c(-0.1, 5), xlab = "", ylab =
 title(expression("Normal prior density and corresponding posteriors for "*theta), line = 0.7)
 basicPlot(leg = FALSE, IntEffBoundary = effi, IntFutBoundary = futi, successmean = successmean, 
           priormean = priormean)
-lines(thetas, dnorm(thetas, mean = log(hr0), sd = sd0), col = 2, lwd = 2)
+lines(thetas, dnorm(thetas, mean = priormean, sd = sd0), col = 2, lwd = 2)
 lines(thetas, dnorm(thetas, mean = up1$postmean, sd = up1$postsigma), col = 3, lwd = 2)
 lines(thetas, dnorm(thetas, mean = up2$postmean, sd = up2$postsigma), col = 4, lwd = 2)
 lines(thetas, post3, col = 1, lwd = 2)
@@ -251,18 +251,18 @@ flatpost1 <- rep(NA, length(thetas))
 flatpost2 <- flatpost1
 for (i in 1:length(thetas)){
   flatpost1[i] <- estimate_posterior(x = thetas[i], prior = "flat", datamean = log(hr1), 
-                                     datasigma = sd1, priormean = priormean, width = width1, 
+                                     datasigma = sd1, priormean = priormeanflat, width = width1, 
                                      height = height1)
   flatpost2[i] <- estimate_posterior(x = thetas[i], prior = "flat", datamean = log(hr2), 
-                                     datasigma = sd2, priormean = priormean, width = width1, 
+                                     datasigma = sd2, priormean = priormeanflat, width = width1, 
                                      height = height1)
 }
 
 plot(0, 0, type = "n", xlim = c(-0.6, 0.3), ylim = c(-0.10, 5), xlab = "", ylab = "density", main = "")
 title(expression("Flat prior density and corresponding posteriors for "*theta), line = 0.7)
 basicPlot(leg = FALSE, IntEffBoundary = effi, IntFutBoundary = futi, successmean = successmean, 
-          priormean = priormean)
-lines(thetas, dUniformNormalTails(thetas, mu = priormean, width = width1, height = height1), 
+          priormean = priormeanflat)
+lines(thetas, dUniformNormalTails(thetas, mu = priormeanflat, width = width1, height = height1), 
       lwd = 2, col = 2)
 lines(thetas, flatpost1, col = 3, lwd = 2)
 lines(thetas, flatpost2, col = 4, lwd = 2)
@@ -298,7 +298,7 @@ plot(0, 0, type = "n", xlim = c(-0.6, 0.3), ylim = c(-0.10, 8), xlab = "", ylab 
      main = "")
 title("Posteriors after not stopping at interim, pessimistic prior", line = 0.7)
 basicPlot(leg = FALSE, IntEffBoundary = effi, IntFutBoundary = futi, successmean = successmean, 
-          priormean = priormean)
+          priormean = priormeanflat)
 lines(thetas, post3_1, col = 1, lwd = 2)
 lines(thetas, post4_1, col = 2, lwd = 2)
 lines(thetas, post5_1, col = 3, lwd = 2)
@@ -307,7 +307,7 @@ leg.flat <- c("interval knowledge", expression(hat(theta)*" = efficacy boundary"
 legend(-0.62, 8.2, leg.flat, lty = 1, col = 1:3, lwd = 2, bty = "n", 
        title = "posterior after not stopping at interim,")
 
-## ---- echo = TRUE, results = 'asis', message = FALSE---------------------
+## ---- echo = TRUE, results = 'asis', message = FALSE--------------------------
 mat <- matrix(NA, ncol = 2, nrow = 10)
 mat[, 1] <- c(pnorm1, pnorm2, bpp0, bpp1, bpp2, bpp3, bpp3_futi_only, bpp3_effi_only, bpp4, bpp5)
 mat[, 2] <- c(flat1, flat2, bpp0_1, bpp1_1, bpp2_1, bpp3_1, bpp3_1_futi_only, bpp3_1_effi_only, 
@@ -324,7 +324,7 @@ paste("Probability for hazard ratio to be $\\ge$ ", lims[2], sep = ""),
 mat <- as.data.frame(format(mat, digits = 2))
 library(knitr); kable(mat)
 
-## ---- echo = TRUE, message = FALSE---------------------------------------
+## ---- echo = TRUE, message = FALSE--------------------------------------------
 # ------------------------------------------------------------------------------------------
 # Illustrate the update after two passed interims using the Gallium clinical trial
 # ------------------------------------------------------------------------------------------

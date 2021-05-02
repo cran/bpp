@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+<meta name="date" content="2021-05-02" />
+
+<title>Sequentially updating the likelihood of success of a Phase 3 pivotal time-to-event trial based on interim analyses or external information</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Sequentially updating the likelihood of success of a Phase 3 pivotal time-to-event trial based on interim analyses or external information</h1>
+<h4 class="author">Kaspar Rufibach, Paul Jordan, and Markus Abt</h4>
+<address class="author_afil">
+Department of Biostatistics, Roche Basel<br><h4 class="date">02 May 2021</h4>
+
+
+
+<div id="purpose" class="section level1">
+<h1>Purpose</h1>
+<p>This document reproduces the computations in <span class="citation">Rufibach, Jordan, and Abt (2016b)</span> (<a href="http://dx.doi.org/10.1080/10543406.2014.972508">doi</a>). All the references below to sections, figures, or tables are with respect to that paper. The functions used are all implemented in the <code>R</code> package <span class="citation">Rufibach, Jordan, and Abt (2016a)</span> and all the code below is also available in the help file of the function <code>bpp_1interim</code>.</p>
+<p>Further discussions around Bayesian Predictive Power (BPP), mainly about the choice of a prior, are provided in <span class="citation">Rufibach, Burger, and Abt (2016)</span> (<a href="http://dx.doi.org/10.1002/pst.1764">doi</a>).</p>
+</div>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<p>We start with defining the parameters of the pivotal trial and the results from the two external studies:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co"># load the package:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">library</span>(bpp)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="co"># get the code for all the computations below:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>?bpp_1interim</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="co"># specifications of the the pivotal trial</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>propA &lt;-<span class="st"> </span><span class="fl">0.5</span>   <span class="co"># proportion of patients randomized to arm A</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>fac &lt;-<span class="st"> </span>(propA <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>propA)) <span class="op">^</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>nevents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">1600</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>finalsigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">2</span>])</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>alphas &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.001</span>, <span class="fl">0.049</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>za &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alphas <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>hrMDD &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>za <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>successmean &lt;-<span class="st"> </span><span class="kw">log</span>(hrMDD[<span class="dv">2</span>])</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a><span class="co"># efficacy and futility interim boundary</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>effi &lt;-<span class="st"> </span><span class="kw">log</span>(hrMDD[<span class="dv">1</span>])</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>futi &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="fl">1.025</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a><span class="co"># specifications of the first external study</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>hr1 &lt;-<span class="st"> </span><span class="fl">0.396</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a>sd1 &lt;-<span class="st"> </span><span class="fl">0.837</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a><span class="co"># specifications of the second external study</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a>hr2 &lt;-<span class="st"> </span><span class="fl">0.287</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a>sd2 &lt;-<span class="st"> </span><span class="fl">0.658</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true"></a><span class="co"># grid to compute densities on</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true"></a>thetas &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="fl">0.65</span>, <span class="fl">0.3</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</span></code></pre></div>
+</div>
+<div id="define-the-prior-distributions" class="section level1">
+<h1>Define the prior distributions</h1>
+<p>Then we define the parameters of the prior distributions, see Sections 4.1 and 4.2.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="co"># mean and sd of Normal prior:</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>hr0 &lt;-<span class="st"> </span><span class="fl">0.85</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>sd0 &lt;-<span class="st"> </span><span class="fl">0.11</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="co"># all computations are done on the log(hazard ratio) scale, in order to </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="co"># be able to approximate the distribution of the log(hazard ratio) via a</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="co"># Normal distribution:</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>priormean &lt;-<span class="st"> </span><span class="kw">log</span>(hr0)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a><span class="co"># parameters of pessimistic, or flat, prior:</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>hr0flat &lt;-<span class="st"> </span><span class="fl">0.866</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>priormeanflat &lt;-<span class="st"> </span><span class="kw">log</span>(hr0flat)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>width1 &lt;-<span class="st"> </span><span class="fl">0.21</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>height1 &lt;-<span class="st"> </span><span class="fl">2.48</span></span></code></pre></div>
+<p>Let us compare these two prior distributions:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.3</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="dv">5</span>), <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="kw">title</span>(<span class="kw">expression</span>(<span class="st">&quot;Normal and pessimistic prior density for &quot;</span><span class="op">*</span>theta), <span class="dt">line =</span> <span class="fl">0.7</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="kw">basicPlot</span>(<span class="dt">leg =</span> <span class="ot">FALSE</span>, <span class="dt">IntEffBoundary =</span> <span class="ot">NA</span>, <span class="dt">IntFutBoundary =</span> <span class="ot">NA</span>, <span class="dt">successmean =</span> <span class="ot">NA</span>, <span class="dt">priormean =</span> <span class="ot">NA</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="kw">lines</span>(thetas, <span class="kw">dnorm</span>(thetas, <span class="dt">mean =</span> priormean, <span class="dt">sd =</span> sd0), <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="kw">lines</span>(thetas, <span class="kw">dUniformNormalTails</span>(thetas, <span class="dt">mu =</span> priormeanflat, <span class="dt">width =</span> width1, <span class="dt">height =</span> height1), <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+<div id="computation-of-all-quantities-in-table-1-and-all-the-figures" class="section level1">
+<h1>Computation of all quantities in Table 1, and all the figures</h1>
+<p>In what follows, we compute all quantities that appear in Table 1 of <span class="citation">Rufibach, Jordan, and Abt (2016b)</span>. In addition, the densities shown in Figures 1 and 2 are generated as well. All these computations are done for both, the Normal and the pessimistic prior.</p>
+<div id="interesting-probabilities" class="section level2">
+<h2>Interesting probabilities</h2>
+<p>For the Normal prior:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co"># Normal prior probabilities to be below 0.7 or above 1:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>lims &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.7</span>, <span class="dv">1</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>pnorm1 &lt;-<span class="st"> </span><span class="kw">plnorm</span>(lims[<span class="dv">1</span>], <span class="dt">meanlog =</span> priormean, <span class="dt">sdlog =</span> sd0, <span class="dt">lower.tail =</span> <span class="ot">TRUE</span>, <span class="dt">log.p =</span> <span class="ot">FALSE</span>)   </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>pnorm2 &lt;-<span class="st"> </span><span class="kw">plnorm</span>(lims[<span class="dv">2</span>], <span class="dt">meanlog =</span> priormean, <span class="dt">sdlog =</span> sd0, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>, <span class="dt">log.p =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p>And the same for the pessimistic prior:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="co"># pessimistic prior probabilities to be below 0.7 or above 1:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>flat1 &lt;-<span class="st"> </span><span class="kw">pUniformNormalTails</span>(<span class="dt">x =</span> <span class="kw">log</span>(lims[<span class="dv">1</span>]), <span class="dt">mu =</span> priormeanflat, <span class="dt">width =</span> width1, <span class="dt">height =</span> height1)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>flat2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pUniformNormalTails</span>(<span class="dt">x =</span> <span class="kw">log</span>(lims[<span class="dv">2</span>]), <span class="dt">mu =</span> priormeanflat, <span class="dt">width =</span> width1, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>                                 <span class="dt">height =</span> height1)</span></code></pre></div>
+</div>
+<div id="bpp-at-the-beginning-of-the-trial" class="section level2">
+<h2>BPP at the beginning of the trial</h2>
+<p>Compute BPP based on the prior distributions and the specifications of the pivotal trial.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="co"># Normal prior:</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>bpp0 &lt;-<span class="st"> </span><span class="kw">bpp</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">successmean =</span> successmean, <span class="dt">finalsigma =</span> finalsigma, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>            <span class="dt">priormean =</span> priormean, <span class="dt">priorsigma =</span> sd0)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="co"># pessimistic prior:</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>bpp0_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">bpp</span>(<span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>, <span class="dt">successmean =</span> successmean, <span class="dt">finalsigma =</span> finalsigma, </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>              <span class="dt">priormean =</span> priormeanflat, <span class="dt">width =</span> width1, <span class="dt">height =</span> height1)</span></code></pre></div>
+</div>
+<div id="update-the-prior-distribution-with-external-information" class="section level2">
+<h2>Update the prior distribution with external information</h2>
+<p>We have two external studies that define our likelihood with which we update the two prior distributions.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="co"># Normal prior:</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>up1 &lt;-<span class="st"> </span><span class="kw">NormalNormalPosterior</span>(<span class="dt">datamean =</span> <span class="kw">log</span>(hr1), <span class="dt">datasigma =</span> sd1, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">nu =</span> priormean, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>                             <span class="dt">tau =</span> sd0)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>bpp1 &lt;-<span class="st"> </span><span class="kw">bpp</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">successmean =</span> successmean, <span class="dt">finalsigma =</span> finalsigma, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>            <span class="dt">priormean =</span> up1<span class="op">$</span>postmean, <span class="dt">priorsigma =</span> up1<span class="op">$</span>postsigma)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a><span class="co"># update prior with second external study (result derived from pooled analysis: </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a><span class="co"># Cox regression on patient level, stratified by study):</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>up2 &lt;-<span class="st"> </span><span class="kw">NormalNormalPosterior</span>(<span class="dt">datamean =</span> <span class="kw">log</span>(hr2), <span class="dt">datasigma =</span> sd2, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">nu =</span> priormean, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>                             <span class="dt">tau =</span> sd0)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>bpp2 &lt;-<span class="st"> </span><span class="kw">bpp</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">successmean =</span> successmean, <span class="dt">finalsigma =</span> finalsigma, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>            <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">priorsigma =</span> up2<span class="op">$</span>postsigma)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a><span class="co"># pessimistic prior</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a>bpp1_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">integrate</span>(FlatNormalPosterior, <span class="dt">lower =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">upper =</span> <span class="ot">Inf</span>, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>                     <span class="dt">finalsigma =</span> finalsigma, <span class="dt">datamean =</span> <span class="kw">log</span>(hr1), <span class="dt">datasigma =</span> sd1, </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a>                     <span class="dt">priormean =</span> priormeanflat, <span class="dt">width =</span> width1, <span class="dt">height =</span> height1)<span class="op">$</span>value</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a>bpp2_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">integrate</span>(FlatNormalPosterior, <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>                     <span class="dt">finalsigma =</span> finalsigma, <span class="dt">datamean =</span> <span class="kw">log</span>(hr2), </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a>                     <span class="dt">datasigma =</span> sd2, <span class="dt">priormean =</span> priormeanflat, </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>                     <span class="dt">width =</span> width1, <span class="dt">height =</span> height1)<span class="op">$</span>value</span></code></pre></div>
+</div>
+<div id="update-the-prior-distribution-after-not-stopping-at-an-interim-analysis" class="section level2">
+<h2>Update the prior distribution after not stopping at an interim analysis</h2>
+<p>The next quantities we are interested in is what happens to BPP if we do not stop at an interim analysis. We assess various scenarios, as in Table 1: interim is set up with futility and efficacy boundary, only one of the two, and we also provide updates using conditional power for the two extreme cases, namely that the estimate at the interim was known to be either equal to the futility or the efficacy boundary. Let us start with the Normal prior:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="co"># compute bpp after not stopping at interim, for Normal prior and various </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="co"># assumptions on the amount of information we learn at the interim</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a><span class="co"># assuming both boundaries:</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a>bpp3.tmp &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a>                         <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a>                         <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, <span class="dt">IntFix =</span> <span class="dv">1</span>, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a>                         <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a>                         <span class="dt">priorsigma =</span> up2<span class="op">$</span>postsigma)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a>bpp3 &lt;-<span class="st"> </span>bpp3.tmp<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true"></a>post3 &lt;-<span class="st"> </span>bpp3.tmp<span class="op">$</span><span class="st">&quot;posterior density interval&quot;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true"></a><span class="co"># assuming only efficacy boundary:</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true"></a>bpp3_effi_only &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true"></a>                               <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true"></a>                               <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> <span class="kw">log</span>(<span class="ot">Inf</span>), <span class="dt">IntFix =</span> <span class="dv">1</span>, </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true"></a>                               <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true"></a>                               <span class="dt">priorsigma =</span> </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true"></a>                               up2<span class="op">$</span>postsigma)<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true"></a><span class="co"># assuming only futility boundary:</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true"></a>bpp3_futi_only &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true"></a>                               <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true"></a>                               <span class="dt">IntEffBoundary =</span> <span class="kw">log</span>(<span class="dv">0</span>), <span class="dt">IntFutBoundary =</span> futi, <span class="dt">IntFix =</span> <span class="dv">1</span>, </span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true"></a>                               <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true"></a>                               <span class="dt">priorsigma =</span> </span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true"></a>                               up2<span class="op">$</span>postsigma)<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true"></a><span class="co"># assuming interim efficacy boundary: </span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true"></a>bpp4.tmp &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true"></a>                         <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true"></a>                         <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> <span class="ot">Inf</span>, <span class="dt">IntFix =</span> <span class="kw">c</span>(effi, futi), </span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true"></a>                         <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true"></a>                         <span class="dt">priorsigma =</span> up2<span class="op">$</span>postsigma)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true"></a>bpp4 &lt;-<span class="st"> </span>bpp4.tmp<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim exact&quot;</span>[<span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true"></a>post4 &lt;-<span class="st"> </span>bpp4.tmp<span class="op">$</span><span class="st">&quot;posterior density exact&quot;</span>[, <span class="dv">1</span>]</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true"></a><span class="co"># assuming interim futility boundary: </span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true"></a>bpp5.tmp &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true"></a>                         <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true"></a>                         <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> <span class="ot">Inf</span>, <span class="dt">IntFix =</span> futi, </span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true"></a>                         <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true"></a>                         <span class="dt">priorsigma =</span> up2<span class="op">$</span>postsigma)</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true"></a>bpp5 &lt;-<span class="st"> </span>bpp5.tmp<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim exact&quot;</span>[<span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true"></a>post5 &lt;-<span class="st"> </span>bpp5.tmp<span class="op">$</span><span class="st">&quot;posterior density exact&quot;</span>     <span class="co"># same as post4[, 2]</span></span></code></pre></div>
+<p>And the same for the pessimistic prior:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="co"># compute bpp after not stopping at interim, for pessimistic prior and various </span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="co"># assumptions on the amount of information we learn at the interim</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="co"># assuming both boundaries:</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a>bpp3.tmp_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a>                         <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a>                         <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, <span class="dt">IntFix =</span> <span class="dv">1</span>, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a>                         <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true"></a>                         <span class="dt">width =</span> width1, <span class="dt">height =</span> height1)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true"></a>bpp3_<span class="dv">1</span> &lt;-<span class="st"> </span>bpp3.tmp_<span class="dv">1</span><span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true"></a>post3_<span class="dv">1</span> &lt;-<span class="st"> </span>bpp3.tmp_<span class="dv">1</span><span class="op">$</span><span class="st">&quot;posterior density interval&quot;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true"></a><span class="co"># assuming only efficacy boundary:</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true"></a>bpp3_<span class="dv">1</span>_effi_only &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true"></a>                               <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true"></a>                               <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> <span class="kw">log</span>(<span class="ot">Inf</span>), <span class="dt">IntFix =</span> <span class="dv">1</span>, </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true"></a>                               <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true"></a>                               <span class="dt">width =</span> width1, </span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true"></a>                               <span class="dt">height =</span> height1)<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true"></a><span class="co"># assuming only futility boundary:</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true"></a>bpp3_<span class="dv">1</span>_futi_only &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true"></a>                               <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true"></a>                               <span class="dt">IntEffBoundary =</span> <span class="kw">log</span>(<span class="dv">0</span>), <span class="dt">IntFutBoundary =</span> futi, <span class="dt">IntFix =</span> <span class="dv">1</span>, </span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true"></a>                               <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true"></a>                               <span class="dt">width =</span> width1, </span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true"></a>                               <span class="dt">height =</span> height1)<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true"></a><span class="co"># assuming interim efficacy boundary: </span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true"></a>bpp4_<span class="fl">1.</span>tmp &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true"></a>                               <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true"></a>                               <span class="dt">IntEffBoundary =</span> <span class="kw">log</span>(<span class="dv">0</span>), <span class="dt">IntFutBoundary =</span> effi, <span class="dt">IntFix =</span> effi, </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true"></a>                               <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true"></a>                               <span class="dt">width =</span> width1, <span class="dt">height =</span> height1)</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true"></a>bpp4_<span class="dv">1</span> &lt;-<span class="st"> </span>bpp4_<span class="fl">1.</span>tmp<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim exact&quot;</span>[<span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true"></a>post4_<span class="dv">1</span> &lt;-<span class="st"> </span>bpp4_<span class="fl">1.</span>tmp<span class="op">$</span><span class="st">&quot;posterior density exact&quot;</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true"></a></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true"></a><span class="co"># assuming interim futility boundary: </span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true"></a>bpp5_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">integrate</span>(<span class="kw">Vectorize</span>(estimate_toIntegrate), <span class="dt">lower =</span> <span class="op">-</span><span class="ot">Inf</span>, <span class="dt">upper =</span> <span class="ot">Inf</span>, <span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>,</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true"></a>                    <span class="dt">successmean =</span> successmean, <span class="dt">finalsigma =</span> finalsigma, <span class="dt">datamean =</span> futi, </span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true"></a>                    <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, </span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true"></a>                    <span class="dt">width =</span> width1, <span class="dt">height =</span> height1)<span class="op">$</span>value</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true"></a></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true"></a>bpp5_<span class="fl">1.</span>tmp &lt;-<span class="st"> </span><span class="kw">bpp_1interim</span>(<span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>, <span class="dt">datasigma =</span> <span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span>]), </span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true"></a>                           <span class="dt">finalsigma =</span> finalsigma, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true"></a>                           <span class="dt">IntEffBoundary =</span> <span class="kw">log</span>(<span class="dv">0</span>), <span class="dt">IntFutBoundary =</span> effi, <span class="dt">IntFix =</span> futi, </span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true"></a>                               <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">propA =</span> <span class="fl">0.5</span>, <span class="dt">thetas =</span> thetas, </span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true"></a>                               <span class="dt">width =</span> width1, <span class="dt">height =</span> height1)</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true"></a>bpp5_<span class="dv">1</span> &lt;-<span class="st"> </span>bpp5_<span class="fl">1.</span>tmp<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim exact&quot;</span>[<span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true"></a>post5_<span class="dv">1</span> &lt;-<span class="st"> </span>bpp5_<span class="fl">1.</span>tmp<span class="op">$</span><span class="st">&quot;posterior density exact&quot;</span></span></code></pre></div>
+</div>
+<div id="posterior-densities" class="section level2">
+<h2>Posterior densities</h2>
+<p>The resulting posteriors after the updates with the external studies are depicted below, compare Figure 1 in <span class="citation">Rufibach, Jordan, and Abt (2016b)</span>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a><span class="co"># Normal prior:</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.3</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="dv">5</span>), <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;density&quot;</span>, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a>     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a><span class="kw">title</span>(<span class="kw">expression</span>(<span class="st">&quot;Normal prior density and corresponding posteriors for &quot;</span><span class="op">*</span>theta), <span class="dt">line =</span> <span class="fl">0.7</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a><span class="kw">basicPlot</span>(<span class="dt">leg =</span> <span class="ot">FALSE</span>, <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>          <span class="dt">priormean =</span> priormean)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a><span class="kw">lines</span>(thetas, <span class="kw">dnorm</span>(thetas, <span class="dt">mean =</span> priormean, <span class="dt">sd =</span> sd0), <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a><span class="kw">lines</span>(thetas, <span class="kw">dnorm</span>(thetas, <span class="dt">mean =</span> up1<span class="op">$</span>postmean, <span class="dt">sd =</span> up1<span class="op">$</span>postsigma), <span class="dt">col =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a><span class="kw">lines</span>(thetas, <span class="kw">dnorm</span>(thetas, <span class="dt">mean =</span> up2<span class="op">$</span>postmean, <span class="dt">sd =</span> up2<span class="op">$</span>postsigma), <span class="dt">col =</span> <span class="dv">4</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a><span class="kw">lines</span>(thetas, post3, <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a><span class="kw">legend</span>(<span class="op">-</span><span class="fl">0.64</span>, <span class="fl">5.2</span>, <span class="kw">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;posterior after Sub1&quot;</span>, <span class="st">&quot;posterior after Sub1 &amp; Sub2&quot;</span>, </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true"></a>       <span class="st">&quot;posterior after Sub1 &amp; Sub2 and not stopping at interim&quot;</span>), <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">1</span>), </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true"></a>       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true"></a><span class="co"># pessimistic prior:</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true"></a><span class="co"># first we have to compute the posteriors after the external updates:</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true"></a>flatpost1 &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">length</span>(thetas))</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true"></a>flatpost2 &lt;-<span class="st"> </span>flatpost1</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(thetas)){</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true"></a>  flatpost1[i] &lt;-<span class="st"> </span><span class="kw">estimate_posterior</span>(<span class="dt">x =</span> thetas[i], <span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>, <span class="dt">datamean =</span> <span class="kw">log</span>(hr1), </span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true"></a>                                     <span class="dt">datasigma =</span> sd1, <span class="dt">priormean =</span> priormeanflat, <span class="dt">width =</span> width1, </span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true"></a>                                     <span class="dt">height =</span> height1)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true"></a>  flatpost2[i] &lt;-<span class="st"> </span><span class="kw">estimate_posterior</span>(<span class="dt">x =</span> thetas[i], <span class="dt">prior =</span> <span class="st">&quot;flat&quot;</span>, <span class="dt">datamean =</span> <span class="kw">log</span>(hr2), </span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true"></a>                                     <span class="dt">datasigma =</span> sd2, <span class="dt">priormean =</span> priormeanflat, <span class="dt">width =</span> width1, </span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true"></a>                                     <span class="dt">height =</span> height1)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true"></a>}</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true"></a></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.3</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.10</span>, <span class="dv">5</span>), <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true"></a><span class="kw">title</span>(<span class="kw">expression</span>(<span class="st">&quot;Flat prior density and corresponding posteriors for &quot;</span><span class="op">*</span>theta), <span class="dt">line =</span> <span class="fl">0.7</span>)</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true"></a><span class="kw">basicPlot</span>(<span class="dt">leg =</span> <span class="ot">FALSE</span>, <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true"></a>          <span class="dt">priormean =</span> priormeanflat)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true"></a><span class="kw">lines</span>(thetas, <span class="kw">dUniformNormalTails</span>(thetas, <span class="dt">mu =</span> priormeanflat, <span class="dt">width =</span> width1, <span class="dt">height =</span> height1), </span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true"></a>      <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="dv">2</span>)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true"></a><span class="kw">lines</span>(thetas, flatpost1, <span class="dt">col =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true"></a><span class="kw">lines</span>(thetas, flatpost2, <span class="dt">col =</span> <span class="dv">4</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true"></a><span class="kw">lines</span>(thetas, post3_<span class="dv">1</span>, <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true"></a></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true"></a><span class="kw">legend</span>(<span class="op">-</span><span class="fl">0.64</span>, <span class="fl">5.2</span>, <span class="kw">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;posterior after Sub1&quot;</span>, <span class="st">&quot;posterior after Sub1 &amp; Sub2&quot;</span>, </span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true"></a>       <span class="st">&quot;posterior after Sub1 &amp; Sub2 and not stopping at interim&quot;</span>), <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">1</span>), </span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true"></a>       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p>Next, the posteriors after updating with the interim information, as in Figure 2:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a><span class="co"># Normal prior:</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.3</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="dv">8</span>), <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;density&quot;</span>, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a>     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a><span class="kw">title</span>(<span class="st">&quot;Posteriors for after not stopping at interim, Normal prior&quot;</span>, <span class="dt">line =</span> <span class="fl">0.7</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a><span class="kw">basicPlot</span>(<span class="dt">leg =</span> <span class="ot">FALSE</span>, <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true"></a>          <span class="dt">priormean =</span> priormean)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true"></a><span class="kw">lines</span>(thetas, post3, <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true"></a><span class="kw">lines</span>(thetas, post4, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true"></a><span class="kw">lines</span>(thetas, post5, <span class="dt">col =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true"></a>leg2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;interval knowledge&quot;</span>, <span class="kw">expression</span>(<span class="kw">hat</span>(theta)<span class="op">*</span><span class="st">&quot; = efficacy boundary&quot;</span>), </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true"></a>          <span class="kw">expression</span>(<span class="kw">hat</span>(theta)<span class="op">*</span><span class="st">&quot; = futility boundary&quot;</span>))</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true"></a><span class="kw">legend</span>(<span class="op">-</span><span class="fl">0.62</span>, <span class="fl">8.2</span>, leg2, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true"></a>       <span class="dt">title =</span> <span class="st">&quot;posterior after not stopping at interim,&quot;</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true"></a><span class="co"># pessimistic prior:</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.3</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.10</span>, <span class="dv">8</span>), <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;density&quot;</span>, </span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true"></a>     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true"></a><span class="kw">title</span>(<span class="st">&quot;Posteriors after not stopping at interim, pessimistic prior&quot;</span>, <span class="dt">line =</span> <span class="fl">0.7</span>)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true"></a><span class="kw">basicPlot</span>(<span class="dt">leg =</span> <span class="ot">FALSE</span>, <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, <span class="dt">successmean =</span> successmean, </span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true"></a>          <span class="dt">priormean =</span> priormeanflat)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true"></a><span class="kw">lines</span>(thetas, post3_<span class="dv">1</span>, <span class="dt">col =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true"></a><span class="kw">lines</span>(thetas, post4_<span class="dv">1</span>, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true"></a><span class="kw">lines</span>(thetas, post5_<span class="dv">1</span>, <span class="dt">col =</span> <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true"></a>leg.flat &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;interval knowledge&quot;</span>, <span class="kw">expression</span>(<span class="kw">hat</span>(theta)<span class="op">*</span><span class="st">&quot; = efficacy boundary&quot;</span>), </span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true"></a>              <span class="kw">expression</span>(<span class="kw">hat</span>(theta)<span class="op">*</span><span class="st">&quot; = futility boundary&quot;</span>))</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true"></a><span class="kw">legend</span>(<span class="op">-</span><span class="fl">0.62</span>, <span class="fl">8.2</span>, leg.flat, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true"></a>       <span class="dt">title =</span> <span class="st">&quot;posterior after not stopping at interim,&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+<div id="table-1-in-rufibach_14" class="section level2">
+<h2>Table 1 in <span class="citation">Rufibach, Jordan, and Abt (2016b)</span></h2>
+<p>Finally, we collect all the results computed above in one table, reproducing Table 1 in <span class="citation">Rufibach, Jordan, and Abt (2016b)</span>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">10</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>mat[, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">c</span>(pnorm1, pnorm2, bpp0, bpp1, bpp2, bpp3, bpp3_futi_only, bpp3_effi_only, bpp4, bpp5)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>mat[, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">c</span>(flat1, flat2, bpp0_<span class="dv">1</span>, bpp1_<span class="dv">1</span>, bpp2_<span class="dv">1</span>, bpp3_<span class="dv">1</span>, bpp3_<span class="dv">1</span>_futi_only, bpp3_<span class="dv">1</span>_effi_only, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>              bpp4_<span class="dv">1</span>, bpp5_<span class="dv">1</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a><span class="kw">colnames</span>(mat) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Normal prior&quot;</span>, <span class="st">&quot;Flat prior&quot;</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a><span class="kw">rownames</span>(mat) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;Probability for hazard ratio to be $</span><span class="ch">\\</span><span class="st">le$ &quot;</span>, lims[<span class="dv">1</span>], <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>), </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a><span class="kw">paste</span>(<span class="st">&quot;Probability for hazard ratio to be $</span><span class="ch">\\</span><span class="st">ge$ &quot;</span>, lims[<span class="dv">2</span>], <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>), </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a><span class="st">&quot;PoS based on prior distribution&quot;</span>, <span class="st">&quot;PoS after Sub1&quot;</span>, <span class="st">&quot;PoS after Sub1 and Sub2&quot;</span>, </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a><span class="st">&quot;PoS after not stopping at interim, assuming $</span><span class="ch">\\</span><span class="st">hat </span><span class="ch">\\</span><span class="st">theta </span><span class="ch">\\</span><span class="st">in [</span><span class="ch">\\</span><span class="st">theta_{futi}, </span><span class="ch">\\</span><span class="st">theta_{effi}]$&quot;</span>, </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a><span class="st">&quot;PoS after not stopping at interim, assuming $</span><span class="ch">\\</span><span class="st">hat </span><span class="ch">\\</span><span class="st">theta </span><span class="ch">\\</span><span class="st">in [-</span><span class="ch">\\</span><span class="st">infty, </span><span class="ch">\\</span><span class="st">theta_{futi}]$&quot;</span>, </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a><span class="st">&quot;PoS after not stopping at interim, assuming $</span><span class="ch">\\</span><span class="st">hat </span><span class="ch">\\</span><span class="st">theta </span><span class="ch">\\</span><span class="st">in [</span><span class="ch">\\</span><span class="st">theta_{effi}, </span><span class="ch">\\</span><span class="st">infty]$&quot;</span>, </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a><span class="st">&quot;PoS after not stopping at interim, assuming $</span><span class="ch">\\</span><span class="st">hat </span><span class="ch">\\</span><span class="st">theta = </span><span class="ch">\\</span><span class="st">theta_{effi}$&quot;</span>, </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a><span class="st">&quot;PoS after not stopping at interim, assuming $</span><span class="ch">\\</span><span class="st">hat </span><span class="ch">\\</span><span class="st">theta = </span><span class="ch">\\</span><span class="st">theta_{futi}$&quot;</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true"></a>mat &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(mat, <span class="dt">digits =</span> <span class="dv">2</span>))</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true"></a><span class="kw">library</span>(knitr); <span class="kw">kable</span>(mat)</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="79%" />
+<col width="11%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Normal prior</th>
+<th align="left">Flat prior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Probability for hazard ratio to be <span class="math inline">\(\le\)</span> 0.7</td>
+<td align="left">0.039</td>
+<td align="left">0.039</td>
+</tr>
+<tr class="even">
+<td align="left">Probability for hazard ratio to be <span class="math inline">\(\ge\)</span> 1</td>
+<td align="left">0.070</td>
+<td align="left">0.147</td>
+</tr>
+<tr class="odd">
+<td align="left">PoS based on prior distribution</td>
+<td align="left">0.702</td>
+<td align="left">0.612</td>
+</tr>
+<tr class="even">
+<td align="left">PoS after Sub1</td>
+<td align="left">0.740</td>
+<td align="left">0.665</td>
+</tr>
+<tr class="odd">
+<td align="left">PoS after Sub1 and Sub2</td>
+<td align="left">0.783</td>
+<td align="left">0.727</td>
+</tr>
+<tr class="even">
+<td align="left">PoS after not stopping at interim, assuming <span class="math inline">\(\hat \theta \in [\theta_{futi}, \theta_{effi}]\)</span></td>
+<td align="left">0.705</td>
+<td align="left">0.617</td>
+</tr>
+<tr class="odd">
+<td align="left">PoS after not stopping at interim, assuming <span class="math inline">\(\hat \theta \in [-\infty, \theta_{futi}]\)</span></td>
+<td align="left">0.822</td>
+<td align="left">0.782</td>
+</tr>
+<tr class="even">
+<td align="left">PoS after not stopping at interim, assuming <span class="math inline">\(\hat \theta \in [\theta_{effi}, \infty]\)</span></td>
+<td align="left">0.653</td>
+<td align="left">0.547</td>
+</tr>
+<tr class="odd">
+<td align="left">PoS after not stopping at interim, assuming <span class="math inline">\(\hat \theta = \theta_{effi}\)</span></td>
+<td align="left">0.997</td>
+<td align="left">0.997</td>
+</tr>
+<tr class="even">
+<td align="left">PoS after not stopping at interim, assuming <span class="math inline">\(\hat \theta = \theta_{futi}\)</span></td>
+<td align="left">0.024</td>
+<td align="left">0.016</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="update-of-bpp-when-not-stopping-the-trial-in-two-blinded-interim-analyses" class="section level1">
+<h1>Update of BPP when not stopping the trial in two blinded interim analyses</h1>
+<p>The theory developed in <span class="citation">Rufibach, Jordan, and Abt (2016b)</span> can straightforwardly be extended to accomodate more than one interim analysis. Below, we illustrate the BPP update assuming a trial that did not stop after first a futility and second an efficacy interim analysis. Note that the function <code>bpp_2interim</code> in <span class="citation">Rufibach, Jordan, and Abt (2016a)</span> so far only allows specification of a Normal prior.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="co"># ------------------------------------------------------------------------------------------</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="co"># Illustrate the update after two passed interims using the Gallium clinical trial</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="co"># ------------------------------------------------------------------------------------------</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a><span class="co"># mean and sd of Normal prior:</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>hr0 &lt;-<span class="st"> </span><span class="fl">0.9288563</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a>priormean &lt;-<span class="st"> </span><span class="kw">log</span>(hr0)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>priorsigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">4</span> <span class="op">/</span><span class="st"> </span><span class="dv">12</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a><span class="co"># specifications for pivotal study:</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true"></a>propA &lt;-<span class="st"> </span><span class="fl">0.5</span>   </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true"></a>fac &lt;-<span class="st"> </span>(propA <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>propA)) <span class="op">^</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true"></a>nevents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">111</span>, <span class="dv">248</span>, <span class="dv">370</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true"></a>datasigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true"></a>finalsigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">3</span>])</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true"></a>za &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">3.9285726330559</span>, <span class="fl">2.5028231888636</span>, <span class="fl">1.9936294555664</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true"></a>alphas &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(za))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true"></a>hrMDD &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>za <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents))</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true"></a>successmean &lt;-<span class="st"> </span><span class="kw">log</span>(hrMDD[<span class="dv">3</span>])</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true"></a><span class="co"># 2-d vector of efficacy and futility interim boundaries:</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true"></a>effi &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">c</span>(<span class="dv">0</span>, hrMDD[<span class="dv">2</span>]))  <span class="co"># first interim is for futility only</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true"></a>futi &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">Inf</span>))       <span class="co"># second interim is for efficacy only</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true"></a>bpp2 &lt;-<span class="st"> </span><span class="kw">bpp_2interim</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">datasigma =</span> datasigma, <span class="dt">finalsigma =</span> finalsigma, </span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true"></a>             <span class="dt">successmean =</span> successmean, <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, </span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true"></a>             <span class="dt">priormean =</span> priormean, <span class="dt">thetas =</span> thetas, <span class="dt">priorsigma =</span> priorsigma)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true"></a>bpp2<span class="op">$</span><span class="st">&quot;initial BPP&quot;</span></span></code></pre></div>
+<pre><code>## [1] 0.41</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>bpp2<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span></code></pre></div>
+<pre><code>## [1] 0.3222457</code></pre>
+</div>
+<div id="info" class="section level1">
+<h1>Info</h1>
+<p>R version and packages used to generate this report:</p>
+<p>R version: R version 4.0.5 (2021-03-31)</p>
+<p>Base packages: stats / graphics / grDevices / utils / datasets / methods / base</p>
+<p>Other packages: knitr / bpp / mvtnorm</p>
+<p>This document was generated on 2021-05-02 at 11:50:07.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references hanging-indent">
+<div id="ref-rufibach_15">
+<p>Rufibach, K., H. U. Burger, and M. Abt. 2016. “Bayesian Predictive Power: Choice of Prior and Some Recommendations for Its Use as Probability of Success in Drug Development.” <em>Pharm. Stat.</em> 15: 438–46.</p>
+</div>
+<div id="ref-bpp">
+<p>Rufibach, K., P. Jordan, and M. Abt. 2016a. <em>Bpp: Computations Around Bayesian Predictive Power</em>.</p>
+</div>
+<div id="ref-rufibach_14">
+<p>———. 2016b. “Sequentially updating the likelihood of success of a Phase 3 pivotal time-to-event trial based on interim analyses or external information.” <em>J Biopharm Stat</em> 26 (2): 191–201.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

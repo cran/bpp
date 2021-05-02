@@ -1,7 +1,12 @@
-bpp <- function(prior = c("normal", "flat"), successmean, finalsigma, priormean, ...){
+bpp <- function(prior = c("normal", "flat"), direction_lower = TRUE, successmean, finalsigma, priormean, ...){
   
   # list input arguments
   inp <- list(...)
+  
+  if (isFALSE(direction_lower)){
+    successmean <- -successmean
+    priormean <- -priormean
+    }
   
   if (prior == "normal"){res <- pnorm((successmean - priormean) / sqrt(finalsigma ^ 2 + inp$priorsigma ^ 2))}
   if (prior == "flat"){

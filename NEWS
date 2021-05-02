@@ -1,3 +1,8 @@
-eventTrack_1.0.0
+bpp_1.0.1
+---------------------------------
+- Extended some of the help files.
+- Added option "direction" to bpp, bpp_1interim, bpp_2interim.
+
+bpp_1.0.0
 ---------------------------------
 - Initial version.

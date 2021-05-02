@@ -1,8 +1,8 @@
 Package: bpp
 Type: Package
 Title: Computations Around Bayesian Predictive Power
-Version: 1.0.0
-Date: 2016-12-13
+Version: 1.0.1
+Date: 2021-05-02
 Author: Kaspar Rufibach, Paul Jordan, Markus Abt
 Maintainer: Kaspar Rufibach <kaspar.rufibach@roche.com>
 Depends: mvtnorm, R (>= 2.10)
@@ -12,6 +12,6 @@ Description: Implements functions to update Bayesian Predictive Power Computatio
 License: GPL (>= 2)
 LazyLoad: yes
 NeedsCompilation: no
-Packaged: 2016-12-13 07:39:28 UTC; rufiback
+Packaged: 2021-05-02 09:52:11 UTC; rufiback
 Repository: CRAN
-Date/Publication: 2016-12-13 15:33:39
+Date/Publication: 2021-05-02 10:10:02 UTC

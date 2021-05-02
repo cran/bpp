@@ -1,8 +1,16 @@
-bpp_1interim <- function(prior = c("normal", "flat"), datasigma, finalsigma, successmean, IntEffBoundary, 
+bpp_1interim <- function(prior = c("normal", "flat"), direction_lower = TRUE, datasigma, finalsigma, successmean, IntEffBoundary, 
                          IntFutBoundary, IntFix, priormean, propA = 0.5, thetas, ...){
   
   # list input arguments
   inp <- list(...)
+
+  if (isFALSE(direction_lower)){
+    successmean <- -successmean
+    priormean <- -priormean
+    IntEffBoundary <- -IntEffBoundary
+    IntFutBoundary <- -IntFutBoundary
+    IntFix <- -IntFix
+  }
   
   ## ------------------------------------------
   ## posterior power:
