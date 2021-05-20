@@ -1,15 +1,8 @@
-bpp_2interim <- function(prior = "normal", direction_lower = TRUE, datasigma, finalsigma, successmean, IntEffBoundary, IntFutBoundary, priormean, thetas, ...){
+bpp_2interim <- function(prior = "normal", datasigma, finalsigma, successmean, IntEffBoundary, IntFutBoundary, priormean, thetas, ...){
 
   # list input arguments
   inp <- list(...)
 
-  if (isFALSE(direction_lower)){
-    successmean <- -successmean
-    priormean <- -priormean
-    IntEffBoundary <- -IntEffBoundary
-    IntFutBoundary <- -IntFutBoundary
-  }
-  
   ## ------------------------------------------
   ## normal prior
   ## ------------------------------------------
