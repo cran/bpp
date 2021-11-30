@@ -2,11 +2,11 @@
 \alias{bpp}
 \title{Bayesian Predictive Power (BPP) for Normally Distributed Endpoint}
 \description{Compute BPP for a Normally distributed endpoint, e.g. log(hazard ratio).}
-\usage{bpp(prior = c("normal", "flat"), successmean, finalsigma, priormean, ...)}
+\usage{bpp(prior = c("normal", "flat"), successmean, finalSE, priormean, ...)}
 \arguments{
   \item{prior}{Prior density on effect sizes.}
   \item{successmean}{The mean that defines success at the final analysis. Typically chosen to be the minimal detectable difference, i.e. the critical on the scale of the effect size of interest corresponding to the significance level at the final analysis.}
-  \item{finalsigma}{(Known) standard deviation at which the final analysis of the study under consideration takes place.}
+  \item{finalSE}{(Known) standard error at which the final analysis of the study under consideration takes place.}
   \item{priormean}{Prior mean.}
   \item{...}{Further arguments specific to the chosen prior (see \code{bpp} for examples).}
 }

@@ -3,13 +3,13 @@
 \title{Posterior density conditional on interim result is proportional to the value of this function}
 \description{If we update the prior with a known estimate at an interim analysis, we get a density that is proportional to the value of this function.
 }
-\usage{estimate_posterior_nominator(x, prior = c("normal", "flat"), datamean, 
-                                    datasigma, priormean, ...)}
+\usage{estimate_posterior_nominator(x, prior = c("normal", "flat"), interimmean, 
+                                    interimSE, priormean, ...)}
 \arguments{
   \item{x}{Value at which to evaluate the function.}
   \item{prior}{Prior density on effect sizes.}
-  \item{datamean}{Mean of the data.}
-  \item{datasigma}{(Known) standard deviation of \code{datamean}.}
+  \item{interimmean}{Mean of the data.}
+  \item{interimSE}{(Known) standard error of \code{interimmean}.}
   \item{priormean}{Prior mean.}
   \item{...}{Further arguments specific to the chosen prior (see \code{bpp} for examples).}
 }

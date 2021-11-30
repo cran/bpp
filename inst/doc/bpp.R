@@ -17,7 +17,7 @@ library(bpp)
 propA <- 0.5   # proportion of patients randomized to arm A
 fac <- (propA * (1 - propA)) ^ (-1)
 nevents <- c(0.5, 1) * 1600
-finalsigma <- sqrt(fac / nevents[2])
+finalSE <- sqrt(fac / nevents[2])
 alphas <- c(0.001, 0.049)
 za <- qnorm(1 - alphas / 2)
 hrMDD <- exp(- za * sqrt(fac / nevents))
@@ -82,13 +82,13 @@ flat2 <- 1 - pUniformNormalTails(x = log(lims[2]), mu = priormeanflat, width = w
 # ----------------------------------
 # Normal prior:
 # ----------------------------------
-bpp0 <- bpp(prior = "normal", successmean = successmean, finalsigma = finalsigma, 
+bpp0 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE, 
             priormean = priormean, priorsigma = sd0)
 
 # ----------------------------------
 # pessimistic prior:
 # ----------------------------------
-bpp0_1 <- bpp(prior = "flat", successmean = successmean, finalsigma = finalsigma, 
+bpp0_1 <- bpp(prior = "flat", successmean = successmean, finalSE = finalSE, 
               priormean = priormeanflat, width = width1, height = height1)
 
 ## ---- echo = TRUE, message = FALSE--------------------------------------------
@@ -97,27 +97,28 @@ bpp0_1 <- bpp(prior = "flat", successmean = successmean, finalsigma = finalsigma
 # ----------------------------------
 up1 <- NormalNormalPosterior(datamean = log(hr1), datasigma = sd1, n = 1, nu = priormean, 
                              tau = sd0)
-bpp1 <- bpp(prior = "normal", successmean = successmean, finalsigma = finalsigma, 
+bpp1 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE, 
             priormean = up1$postmean, priorsigma = up1$postsigma)
 
 # update prior with second external study (result derived from pooled analysis: 
 # Cox regression on patient level, stratified by study):
 up2 <- NormalNormalPosterior(datamean = log(hr2), datasigma = sd2, n = 1, nu = priormean, 
                              tau = sd0)
-bpp2 <- bpp(prior = "normal", successmean = successmean, finalsigma = finalsigma, 
+bpp2 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE, 
             priormean = up2$postmean, priorsigma = up2$postsigma)
 
 # ----------------------------------
 # pessimistic prior
 # ----------------------------------
 bpp1_1 <- integrate(FlatNormalPosterior, lower = -Inf, upper = Inf, successmean = successmean, 
-                     finalsigma = finalsigma, datamean = log(hr1), datasigma = sd1, 
-                     priormean = priormeanflat, width = width1, height = height1)$value
+                     finalSE = finalSE, interimmean = log(hr1), interimSE = sd1, 
+                     priormean = priormeanflat, width = width1, height = height1,
+                     subdivisions = 300)$value
 
 bpp2_1 <- integrate(FlatNormalPosterior, -Inf, Inf, successmean = successmean, 
-                     finalsigma = finalsigma, datamean = log(hr2), 
-                     datasigma = sd2, priormean = priormeanflat, 
-                     width = width1, height = height1)$value
+                     finalSE = finalSE, interimmean = log(hr2), 
+                     interimSE = sd2, priormean = priormeanflat, 
+                     width = width1, height = height1, subdivisions = 300)$value
 
 ## ---- echo = TRUE, message = FALSE--------------------------------------------
 # ----------------------------------
@@ -126,8 +127,8 @@ bpp2_1 <- integrate(FlatNormalPosterior, -Inf, Inf, successmean = successmean,
 # ----------------------------------
 
 # assuming both boundaries:
-bpp3.tmp <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[1]), 
-                         finalsigma = finalsigma, successmean = successmean, 
+bpp3.tmp <- bpp_1interim(prior = "normal", interimSE = sqrt(fac / nevents[1]), 
+                         finalSE = finalSE, successmean = successmean, 
                          IntEffBoundary = effi, IntFutBoundary = futi, IntFix = 1, 
                          priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                          priorsigma = up2$postsigma)
@@ -135,24 +136,24 @@ bpp3 <- bpp3.tmp$"BPP after not stopping at interim interval"
 post3 <- bpp3.tmp$"posterior density interval"
 
 # assuming only efficacy boundary:
-bpp3_effi_only <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[1]), 
-                               finalsigma = finalsigma, successmean = successmean, 
+bpp3_effi_only <- bpp_1interim(prior = "normal", interimSE = sqrt(fac / nevents[1]), 
+                               finalSE = finalSE, successmean = successmean, 
                                IntEffBoundary = effi, IntFutBoundary = log(Inf), IntFix = 1, 
                                priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                                priorsigma = 
                                up2$postsigma)$"BPP after not stopping at interim interval"
 
 # assuming only futility boundary:
-bpp3_futi_only <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[1]), 
-                               finalsigma = finalsigma, successmean = successmean, 
+bpp3_futi_only <- bpp_1interim(prior = "normal", interimSE = sqrt(fac / nevents[1]), 
+                               finalSE = finalSE, successmean = successmean, 
                                IntEffBoundary = log(0), IntFutBoundary = futi, IntFix = 1, 
                                priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                                priorsigma = 
                                up2$postsigma)$"BPP after not stopping at interim interval"
 
 # assuming interim efficacy boundary: 
-bpp4.tmp <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[1]), 
-                         finalsigma = finalsigma, successmean = successmean, 
+bpp4.tmp <- bpp_1interim(prior = "normal", interimSE = sqrt(fac / nevents[1]), 
+                         finalSE = finalSE, successmean = successmean, 
                          IntEffBoundary = effi, IntFutBoundary = Inf, IntFix = c(effi, futi), 
                          priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                          priorsigma = up2$postsigma)
@@ -160,8 +161,8 @@ bpp4 <- bpp4.tmp$"BPP after not stopping at interim exact"[2, 1]
 post4 <- bpp4.tmp$"posterior density exact"[, 1]
 
 # assuming interim futility boundary: 
-bpp5.tmp <- bpp_1interim(prior = "normal", datasigma = sqrt(fac / nevents[1]), 
-                         finalsigma = finalsigma, successmean = successmean, 
+bpp5.tmp <- bpp_1interim(prior = "normal", interimSE = sqrt(fac / nevents[1]), 
+                         finalSE = finalSE, successmean = successmean, 
                          IntEffBoundary = effi, IntFutBoundary = Inf, IntFix = futi, 
                          priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                          priorsigma = up2$postsigma)
@@ -175,8 +176,8 @@ post5 <- bpp5.tmp$"posterior density exact"     # same as post4[, 2]
 # ----------------------------------
 
 # assuming both boundaries:
-bpp3.tmp_1 <- bpp_1interim(prior = "flat", datasigma = sqrt(fac / nevents[1]), 
-                         finalsigma = finalsigma, successmean = successmean, 
+bpp3.tmp_1 <- bpp_1interim(prior = "flat", interimSE = sqrt(fac / nevents[1]), 
+                         finalSE = finalSE, successmean = successmean, 
                          IntEffBoundary = effi, IntFutBoundary = futi, IntFix = 1, 
                          priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                          width = width1, height = height1)
@@ -184,24 +185,24 @@ bpp3_1 <- bpp3.tmp_1$"BPP after not stopping at interim interval"
 post3_1 <- bpp3.tmp_1$"posterior density interval"
 
 # assuming only efficacy boundary:
-bpp3_1_effi_only <- bpp_1interim(prior = "flat", datasigma = sqrt(fac / nevents[1]), 
-                               finalsigma = finalsigma, successmean = successmean, 
+bpp3_1_effi_only <- bpp_1interim(prior = "flat", interimSE = sqrt(fac / nevents[1]), 
+                               finalSE = finalSE, successmean = successmean, 
                                IntEffBoundary = effi, IntFutBoundary = log(Inf), IntFix = 1, 
                                priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                                width = width1, 
                                height = height1)$"BPP after not stopping at interim interval"
 
 # assuming only futility boundary:
-bpp3_1_futi_only <- bpp_1interim(prior = "flat", datasigma = sqrt(fac / nevents[1]), 
-                               finalsigma = finalsigma, successmean = successmean, 
+bpp3_1_futi_only <- bpp_1interim(prior = "flat", interimSE = sqrt(fac / nevents[1]), 
+                               finalSE = finalSE, successmean = successmean, 
                                IntEffBoundary = log(0), IntFutBoundary = futi, IntFix = 1, 
                                priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                                width = width1, 
                                height = height1)$"BPP after not stopping at interim interval"
 
 # assuming interim efficacy boundary: 
-bpp4_1.tmp <- bpp_1interim(prior = "flat", datasigma = sqrt(fac / nevents[1]), 
-                               finalsigma = finalsigma, successmean = successmean, 
+bpp4_1.tmp <- bpp_1interim(prior = "flat", interimSE = sqrt(fac / nevents[1]), 
+                               finalSE = finalSE, successmean = successmean, 
                                IntEffBoundary = log(0), IntFutBoundary = effi, IntFix = effi, 
                                priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                                width = width1, height = height1)
@@ -210,13 +211,13 @@ post4_1 <- bpp4_1.tmp$"posterior density exact"
 
 # assuming interim futility boundary: 
 bpp5_1 <- integrate(Vectorize(estimate_toIntegrate), lower = -Inf, upper = Inf, prior = "flat",
-                    successmean = successmean, finalsigma = finalsigma, datamean = futi, 
-                    datasigma = sqrt(fac / nevents[1]), priormean = up2$postmean, 
-                    width = width1, height = height1)$value
+                    successmean = successmean, finalSE = finalSE, interimmean = futi, 
+                    interimSE = sqrt(fac / nevents[1]), priormean = up2$postmean, 
+                    width = width1, height = height1, subdivisions = 300)$value
 
 
-bpp5_1.tmp <- bpp_1interim(prior = "flat", datasigma = sqrt(fac / nevents[1]), 
-                           finalsigma = finalsigma, successmean = successmean, 
+bpp5_1.tmp <- bpp_1interim(prior = "flat", interimSE = sqrt(fac / nevents[1]), 
+                           finalSE = finalSE, successmean = successmean, 
                            IntEffBoundary = log(0), IntFutBoundary = effi, IntFix = futi, 
                                priormean = up2$postmean, propA = 0.5, thetas = thetas, 
                                width = width1, height = height1)
@@ -250,11 +251,11 @@ legend(-0.64, 5.2, c("prior", "posterior after Sub1", "posterior after Sub1 & Su
 flatpost1 <- rep(NA, length(thetas))
 flatpost2 <- flatpost1
 for (i in 1:length(thetas)){
-  flatpost1[i] <- estimate_posterior(x = thetas[i], prior = "flat", datamean = log(hr1), 
-                                     datasigma = sd1, priormean = priormeanflat, width = width1, 
+  flatpost1[i] <- estimate_posterior(x = thetas[i], prior = "flat", interimmean = log(hr1), 
+                                     interimSE = sd1, priormean = priormeanflat, width = width1, 
                                      height = height1)
-  flatpost2[i] <- estimate_posterior(x = thetas[i], prior = "flat", datamean = log(hr2), 
-                                     datasigma = sd2, priormean = priormeanflat, width = width1, 
+  flatpost2[i] <- estimate_posterior(x = thetas[i], prior = "flat", interimmean = log(hr2), 
+                                     interimSE = sd2, priormean = priormeanflat, width = width1, 
                                      height = height1)
 }
 
@@ -338,8 +339,8 @@ priorsigma <- sqrt(4 / 12)
 propA <- 0.5   
 fac <- (propA * (1 - propA)) ^ (-1)
 nevents <- c(111, 248, 370)
-datasigma <- sqrt(fac / nevents[1:2])
-finalsigma <- sqrt(fac / nevents[3])
+interimSE <- sqrt(fac / nevents[1:2])
+finalSE <- sqrt(fac / nevents[3])
 za <- c(3.9285726330559, 2.5028231888636, 1.9936294555664)
 alphas <- 2 * (1 - pnorm(za))
 hrMDD <- exp(- za * sqrt(fac / nevents))
@@ -349,7 +350,7 @@ successmean <- log(hrMDD[3])
 effi <- log(c(0, hrMDD[2]))  # first interim is for futility only
 futi <- log(c(1, Inf))       # second interim is for efficacy only
 
-bpp2 <- bpp_2interim(prior = "normal", datasigma = datasigma, finalsigma = finalsigma, 
+bpp2 <- bpp_2interim(prior = "normal", interimSE = interimSE, finalSE = finalSE, 
              successmean = successmean, IntEffBoundary = effi, IntFutBoundary = futi, 
              priormean = priormean, thetas = thetas, priorsigma = priorsigma)
 

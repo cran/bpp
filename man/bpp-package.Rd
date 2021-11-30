@@ -9,8 +9,8 @@
 \tabular{ll}{
 Package:  \tab bpp  \cr
 Type:     \tab Package    \cr
-Version:  \tab 1.0.2      \cr
-Date:     \tab 2021-05-20 \cr
+Version:  \tab 1.0.3      \cr
+Date:     \tab 2021-11-30 \cr
 License:  \tab GPL (>=2)  \cr
 LazyLoad: \tab yes        \cr
 }

@@ -4,13 +4,13 @@
 \description{If we update the prior with the knowledge that two interim estimates were between a futility and efficacy boundary, we get a density that is proportional to the value of this function.
 }
 \usage{interval_posterior_nominator2(x, prior = "normal", 
-          IntEffBoundary, IntFutBoundary, datasigma, priormean, ...)}
+          IntEffBoundary, IntFutBoundary, interimSE, priormean, ...)}
 \arguments{
   \item{x}{Value at which to evaluate the function.}
   \item{prior}{Prior density on effect sizes.}
   \item{IntEffBoundary}{Efficacy boundary at the interim analysis.}
   \item{IntFutBoundary}{Futility boundary at the interim analysis.}
-  \item{datasigma}{(Known) standard deviation of \code{datamean}, i.e. at interim analysis.}
+  \item{interimSE}{(Known) standard error of \code{interimmean}, i.e. at interim analysis.}
   \item{priormean}{Prior mean.}
   \item{...}{Further arguments specific to the chosen prior (see \code{bpp} for examples).}
 }

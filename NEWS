@@ -1,3 +1,10 @@
+bpp_1.0.3
+---------------------------------
+- Corrected color error in basicPlot() for futility boundary.
+- Added wrapper functions for easier use for binary, continuous, and time-to-event endpoint.
+  These functions are bpp_binary, bpp_continuous, bpp_t2e, bpp_1interim_binary, bpp_1interim_continuous, bpp_1interim_t2e.
+- Renamed datasigma --> interimSE, finalsigma --> finalSE.
+
 bpp_1.0.2
 ---------------------------------
 - Minor updates, removed below option again.

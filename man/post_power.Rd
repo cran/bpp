@@ -2,11 +2,11 @@
 \alias{post_power}
 \title{Conditional power conditioning on a blinded interim}
 \description{Conditional power conditioning on a blinded interim, i.e. the estimate after the interim is only known to lie in an interval.}
-\usage{post_power(x, datasigma, finalsigma, successmean, IntEffBoundary, IntFutBoundary)}
+\usage{post_power(x, interimSE, finalSE, successmean, IntEffBoundary, IntFutBoundary)}
 \arguments{
   \item{x}{Value at which to evaluate the function.}
-  \item{datasigma}{(Known) standard deviation of \code{datamean}.}
-  \item{finalsigma}{(Known) standard deviation at which the final analysis of the study under consideration takes place.}
+  \item{interimSE}{(Known) standard error of \code{interimmean}.}
+  \item{finalSE}{(Known) standard error at which the final analysis of the study under consideration takes place.}
   \item{successmean}{The mean that defines success at the final analysis. Typically chosen to be the minimal detectable difference, i.e. the critical on the scale of the effect size of interest corresponding to the significance level at the final analysis.}
   \item{IntEffBoundary}{Efficacy boundary at the interim analysis.}
   \item{IntFutBoundary}{Futility boundary at the interim analysis.}

@@ -14,7 +14,7 @@ These formulas are available e.g. in Held (2008, p. 147ff).
 \usage{NormalNormalPosterior(datamean, datasigma, n, nu, tau)}
 \arguments{
   \item{datamean}{Mean of the data.}
-  \item{datasigma}{(Known) standard deviation of \code{datamean}.}
+  \item{datasigma}{(Known) standard deviation of the data.}
   \item{n}{Number of observations.}
   \item{nu}{Prior mean.}
   \item{tau}{Prior standard deviation.}
@@ -44,7 +44,8 @@ nu <- 0
 tau <- 2
 
 ## posterior:
-NormalNormalPosterior(datamean = mean(x), datasigma = sd0, n = 77, nu = nu, tau = tau)
+NormalNormalPosterior(datamean = mean(x), datasigma = sd(x), 
+                      n = n, nu = nu, tau = tau)
 }
 
 \keyword{htest}
