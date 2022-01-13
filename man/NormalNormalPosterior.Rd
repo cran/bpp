@@ -9,12 +9,12 @@ and
 
 \deqn{\sigma_p = (1 / (\sigma^2/n) + \tau^{-2})^{-1}.}
 
-These formulas are available e.g. in Held (2008, p. 147ff).
+These formulas are available e.g. in Held (2014, p. 182).
 }
-\usage{NormalNormalPosterior(datamean, datasigma, n, nu, tau)}
+\usage{NormalNormalPosterior(datamean, sigma, n, nu, tau)}
 \arguments{
   \item{datamean}{Mean of the data.}
-  \item{datasigma}{(Known) standard deviation of the data.}
+  \item{sigma}{(Known) standard deviation of the data.}
   \item{n}{Number of observations.}
   \item{nu}{Prior mean.}
   \item{tau}{Prior standard deviation.}
@@ -44,7 +44,7 @@ nu <- 0
 tau <- 2
 
 ## posterior:
-NormalNormalPosterior(datamean = mean(x), datasigma = sd(x), 
+NormalNormalPosterior(datamean = mean(x), sigma = sd0, 
                       n = n, nu = nu, tau = tau)
 }
 

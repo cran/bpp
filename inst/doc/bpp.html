@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2022-01-13" />
 
 <title>Sequentially updating the likelihood of success of a Phase 3 pivotal time-to-event trial based on interim analyses or external information</title>
 
@@ -332,7 +332,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Sequentially updating the likelihood of success of a Phase 3 pivotal time-to-event trial based on interim analyses or external information</h1>
 <h4 class="author">Kaspar Rufibach, Paul Jordan, and Markus Abt</h4>
 <address class="author_afil">
-Department of Biostatistics, Roche Basel<br><h4 class="date">30 Nov 2021</h4>
+Department of Biostatistics, Roche Basel<br><h4 class="date">13 Jan 2022</h4>
 
 
 
@@ -442,14 +442,14 @@ Department of Biostatistics, Roche Basel<br><h4 class="date">30 Nov 2021</h4>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="co"># Normal prior:</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="co"># ----------------------------------</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>up1 &lt;-<span class="st"> </span><span class="kw">NormalNormalPosterior</span>(<span class="dt">datamean =</span> <span class="kw">log</span>(hr1), <span class="dt">datasigma =</span> sd1, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">nu =</span> priormean, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>up1 &lt;-<span class="st"> </span><span class="kw">NormalNormalPosterior</span>(<span class="dt">datamean =</span> <span class="kw">log</span>(hr1), <span class="dt">sigma =</span> sd1, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">nu =</span> priormean, </span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>                             <span class="dt">tau =</span> sd0)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>bpp1 &lt;-<span class="st"> </span><span class="kw">bpp</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">successmean =</span> successmean, <span class="dt">finalSE =</span> finalSE, </span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>            <span class="dt">priormean =</span> up1<span class="op">$</span>postmean, <span class="dt">priorsigma =</span> up1<span class="op">$</span>postsigma)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a><span class="co"># update prior with second external study (result derived from pooled analysis: </span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a><span class="co"># Cox regression on patient level, stratified by study):</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>up2 &lt;-<span class="st"> </span><span class="kw">NormalNormalPosterior</span>(<span class="dt">datamean =</span> <span class="kw">log</span>(hr2), <span class="dt">datasigma =</span> sd2, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">nu =</span> priormean, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>up2 &lt;-<span class="st"> </span><span class="kw">NormalNormalPosterior</span>(<span class="dt">datamean =</span> <span class="kw">log</span>(hr2), <span class="dt">sigma =</span> sd2, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">nu =</span> priormean, </span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>                             <span class="dt">tau =</span> sd0)</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>bpp2 &lt;-<span class="st"> </span><span class="kw">bpp</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">successmean =</span> successmean, <span class="dt">finalSE =</span> finalSE, </span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>            <span class="dt">priormean =</span> up2<span class="op">$</span>postmean, <span class="dt">priorsigma =</span> up2<span class="op">$</span>postsigma)</span>
@@ -677,6 +677,7 @@ Department of Biostatistics, Roche Basel<br><h4 class="date">30 Nov 2021</h4>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a><span class="st">&quot;PoS after not stopping at interim, assuming $</span><span class="ch">\\</span><span class="st">hat </span><span class="ch">\\</span><span class="st">theta = </span><span class="ch">\\</span><span class="st">theta_{futi}$&quot;</span>)</span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true"></a>mat &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">format</span>(mat, <span class="dt">digits =</span> <span class="dv">2</span>))</span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true"></a><span class="kw">library</span>(knitr); <span class="kw">kable</span>(mat)</span></code></pre></div>
+<pre><code>## Warning: Paket &#39;knitr&#39; wurde unter R Version 4.1.2 erstellt</code></pre>
 <table style="width:100%;">
 <colgroup>
 <col width="79%" />
@@ -748,38 +749,38 @@ Department of Biostatistics, Roche Basel<br><h4 class="date">30 Nov 2021</h4>
 <div id="update-of-bpp-when-not-stopping-the-trial-in-two-blinded-interim-analyses" class="section level1">
 <h1>Update of BPP when not stopping the trial in two blinded interim analyses</h1>
 <p>The theory developed in <span class="citation">Rufibach, Jordan, and Abt (2016b)</span> can straightforwardly be extended to accomodate more than one interim analysis. Below, we illustrate the BPP update assuming a trial that did not stop after first a futility and second an efficacy interim analysis. Note that the function <code>bpp_2interim</code> in <span class="citation">Rufibach, Jordan, and Abt (2016a)</span> so far only allows specification of a Normal prior.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="co"># ------------------------------------------------------------------------------------------</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="co"># Illustrate the update after two passed interims using the Gallium clinical trial</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="co"># ------------------------------------------------------------------------------------------</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a><span class="co"># mean and sd of Normal prior:</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>hr0 &lt;-<span class="st"> </span><span class="fl">0.9288563</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a>priormean &lt;-<span class="st"> </span><span class="kw">log</span>(hr0)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>priorsigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">4</span> <span class="op">/</span><span class="st"> </span><span class="dv">12</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a><span class="co"># specifications for pivotal study:</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true"></a>propA &lt;-<span class="st"> </span><span class="fl">0.5</span>   </span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true"></a>fac &lt;-<span class="st"> </span>(propA <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>propA)) <span class="op">^</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true"></a>nevents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">111</span>, <span class="dv">248</span>, <span class="dv">370</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true"></a>interimSE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true"></a>finalSE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">3</span>])</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true"></a>za &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">3.9285726330559</span>, <span class="fl">2.5028231888636</span>, <span class="fl">1.9936294555664</span>)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true"></a>alphas &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(za))</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true"></a>hrMDD &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>za <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents))</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true"></a>successmean &lt;-<span class="st"> </span><span class="kw">log</span>(hrMDD[<span class="dv">3</span>])</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true"></a></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true"></a><span class="co"># 2-d vector of efficacy and futility interim boundaries:</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true"></a>effi &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">c</span>(<span class="dv">0</span>, hrMDD[<span class="dv">2</span>]))  <span class="co"># first interim is for futility only</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true"></a>futi &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">Inf</span>))       <span class="co"># second interim is for efficacy only</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true"></a></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true"></a>bpp2 &lt;-<span class="st"> </span><span class="kw">bpp_2interim</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">interimSE =</span> interimSE, <span class="dt">finalSE =</span> finalSE, </span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true"></a>             <span class="dt">successmean =</span> successmean, <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, </span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true"></a>             <span class="dt">priormean =</span> priormean, <span class="dt">thetas =</span> thetas, <span class="dt">priorsigma =</span> priorsigma)</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true"></a></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true"></a>bpp2<span class="op">$</span><span class="st">&quot;initial BPP&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="co"># ------------------------------------------------------------------------------------------</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="co"># Illustrate the update after two passed interims using the Gallium clinical trial</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a><span class="co"># ------------------------------------------------------------------------------------------</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a><span class="co"># mean and sd of Normal prior:</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a>hr0 &lt;-<span class="st"> </span><span class="fl">0.9288563</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a>priormean &lt;-<span class="st"> </span><span class="kw">log</span>(hr0)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a>priorsigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">4</span> <span class="op">/</span><span class="st"> </span><span class="dv">12</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a><span class="co"># specifications for pivotal study:</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a>propA &lt;-<span class="st"> </span><span class="fl">0.5</span>   </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true"></a>fac &lt;-<span class="st"> </span>(propA <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>propA)) <span class="op">^</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true"></a>nevents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">111</span>, <span class="dv">248</span>, <span class="dv">370</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true"></a>interimSE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true"></a>finalSE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents[<span class="dv">3</span>])</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true"></a>za &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">3.9285726330559</span>, <span class="fl">2.5028231888636</span>, <span class="fl">1.9936294555664</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true"></a>alphas &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(za))</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true"></a>hrMDD &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="st"> </span>za <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(fac <span class="op">/</span><span class="st"> </span>nevents))</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true"></a>successmean &lt;-<span class="st"> </span><span class="kw">log</span>(hrMDD[<span class="dv">3</span>])</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true"></a><span class="co"># 2-d vector of efficacy and futility interim boundaries:</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true"></a>effi &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">c</span>(<span class="dv">0</span>, hrMDD[<span class="dv">2</span>]))  <span class="co"># first interim is for futility only</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true"></a>futi &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">Inf</span>))       <span class="co"># second interim is for efficacy only</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true"></a>bpp2 &lt;-<span class="st"> </span><span class="kw">bpp_2interim</span>(<span class="dt">prior =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">interimSE =</span> interimSE, <span class="dt">finalSE =</span> finalSE, </span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true"></a>             <span class="dt">successmean =</span> successmean, <span class="dt">IntEffBoundary =</span> effi, <span class="dt">IntFutBoundary =</span> futi, </span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true"></a>             <span class="dt">priormean =</span> priormean, <span class="dt">thetas =</span> thetas, <span class="dt">priorsigma =</span> priorsigma)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true"></a>bpp2<span class="op">$</span><span class="st">&quot;initial BPP&quot;</span></span></code></pre></div>
 <pre><code>## [1] 0.41</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>bpp2<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span></code></pre></div>
-<pre><code>## [1] 0.3222412</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>bpp2<span class="op">$</span><span class="st">&quot;BPP after not stopping at interim interval&quot;</span></span></code></pre></div>
+<pre><code>## [1] 0.3222385</code></pre>
 </div>
 <div id="info" class="section level1">
 <h1>Info</h1>
@@ -787,7 +788,7 @@ Department of Biostatistics, Roche Basel<br><h4 class="date">30 Nov 2021</h4>
 <p>R version: R version 4.1.1 (2021-08-10)</p>
 <p>Base packages: stats / graphics / grDevices / utils / datasets / methods / base</p>
 <p>Other packages: knitr / bpp / mvtnorm</p>
-<p>This document was generated on 2021-11-30 at 13:40:04.</p>
+<p>This document was generated on 2022-01-13 at 15:00:34.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>

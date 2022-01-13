@@ -95,14 +95,14 @@ bpp0_1 <- bpp(prior = "flat", successmean = successmean, finalSE = finalSE,
 # ----------------------------------
 # Normal prior:
 # ----------------------------------
-up1 <- NormalNormalPosterior(datamean = log(hr1), datasigma = sd1, n = 1, nu = priormean, 
+up1 <- NormalNormalPosterior(datamean = log(hr1), sigma = sd1, n = 1, nu = priormean, 
                              tau = sd0)
 bpp1 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE, 
             priormean = up1$postmean, priorsigma = up1$postsigma)
 
 # update prior with second external study (result derived from pooled analysis: 
 # Cox regression on patient level, stratified by study):
-up2 <- NormalNormalPosterior(datamean = log(hr2), datasigma = sd2, n = 1, nu = priormean, 
+up2 <- NormalNormalPosterior(datamean = log(hr2), sigma = sd2, n = 1, nu = priormean, 
                              tau = sd0)
 bpp2 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE, 
             priormean = up2$postmean, priorsigma = up2$postsigma)

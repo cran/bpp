@@ -108,7 +108,7 @@ bpp0 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE,
 # update prior with first external study
 hr1 <- 0.396
 sd1 <- 0.837
-up1 <- NormalNormalPosterior(datamean = log(hr1), datasigma = sd1, n = 1, 
+up1 <- NormalNormalPosterior(datamean = log(hr1), sigma = sd1, n = 1, 
                              nu = log(hr0), tau = sd0)
 bpp1 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE, 
             priormean = up1$postmean, priorsigma = up1$postsigma)
@@ -117,7 +117,7 @@ bpp1 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE,
 # Cox regression on patient level, stratified by study):
 hr2 <- 0.287
 sd2 <- 0.658
-up2 <- NormalNormalPosterior(datamean = log(hr2), datasigma = sd2, n = 1, nu = log(hr0), tau = sd0)
+up2 <- NormalNormalPosterior(datamean = log(hr2), sigma = sd2, n = 1, nu = log(hr0), tau = sd0)
 bpp2 <- bpp(prior = "normal", successmean = successmean, finalSE = finalSE, 
             priormean = up2$postmean, priorsigma = up2$postsigma)
 
@@ -246,7 +246,7 @@ bpp2_1 <- integrate(FlatNormalPosterior, -Inf, Inf, successmean = successmean,
 # first compute synthesized prior:
 hr0 <- 0.85
 sd0 <- 0.11
-up2 <- NormalNormalPosterior(datamean = log(hr2), datasigma = sd2, n = 1, nu = log(hr0), tau = sd0)
+up2 <- NormalNormalPosterior(datamean = log(hr2), sigma = sd2, n = 1, nu = log(hr0), tau = sd0)
 
 # assuming both boundaries:
 bpp3.tmp_1 <- bpp_1interim(prior = "flat", interimSE = sqrt(fac / nevents[1]), 
