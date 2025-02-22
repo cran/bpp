@@ -9,8 +9,8 @@
 \tabular{ll}{
 Package:  \tab bpp  \cr
 Type:     \tab Package    \cr
-Version:  \tab 1.0.4      \cr
-Date:     \tab 2022-01-13 \cr
+Version:  \tab 1.0.6      \cr
+Date:     \tab 2025-02-21 \cr
 License:  \tab GPL (>=2)  \cr
 LazyLoad: \tab yes        \cr
 }
@@ -28,7 +28,7 @@ Bayesian Predictive Power: Choice of Prior and some Recommendations for its Use 
 
 \author{
 Kaspar Rufibach (maintainer) \cr 
-\email{kaspar.rufibach@roche.com}
+\email{kaspar.rufibach@gmail.com}
 }
 
 \examples{

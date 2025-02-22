@@ -1,3 +1,11 @@
+bpp_1.0.6
+---------------------------------
+- Updated email.
+
+bpp_1.0.5
+---------------------------------
+- Added comment about difference between "Bayesian predictive power" and "assurance" to help file bpp.
+
 bpp_1.0.4
 ---------------------------------
 - Corrected error in NormalNormalPosterior. Thanks to Joshua Bon for pointing this out.
